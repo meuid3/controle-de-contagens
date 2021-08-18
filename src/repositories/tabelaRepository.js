@@ -4,8 +4,12 @@ class TabelaRepository {
     this.table = table
   }
 
-  find(idTabela) {
-    
+  async find(idTabela) {
+    return await {
+      id:1,
+      nome: "tb_usuario",
+      schema: "public"
+    }  
   }
 
   async create(data) {
