@@ -1,9 +1,8 @@
 const {Router} = require('express')
+const { tabelaRouter } = require('./routes/tabelaRoutes')
 
 const routes = Router()
 
-routes.get('/test', (request, response) => {
-  response.status(200).json({message: "OK"})
-})
+routes.use('/tabela', tabelaRouter)
 
-module.exports = {routes};
+module.exports = {routes}
