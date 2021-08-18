@@ -17,4 +17,4 @@ class TabelaRepository {
   }
 }
 
-module.exports = TabelaRepository;
+module.exports = TabelaRepository

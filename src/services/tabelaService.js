@@ -13,4 +13,4 @@ class TabelaService {
   }
 }
 
-module.exports = TabelaService;
+module.exports = TabelaService
