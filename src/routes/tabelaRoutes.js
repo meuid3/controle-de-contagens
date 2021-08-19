@@ -9,4 +9,10 @@ tabelaRouter.get('/', async (request, response) => {
   response.json(result)
 })
 
+tabelaRouter.post('/create', async (request, response) => {
+  const tabela = generateInstance()
+  let result = await tabela.create(request.body)
+  response.status(200).json(result)
+})
+
 module.exports = {tabelaRouter}
