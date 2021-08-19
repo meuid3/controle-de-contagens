@@ -1,3 +1,5 @@
+const {DB} = require('../../db/db')
+
 class TabelaRepository {
   
   constructor(dados) {
@@ -9,7 +11,15 @@ class TabelaRepository {
   }
 
   async find(idTabela) {
-    return []
+    try{
+      const db = await new DB().getConnection()
+      const query = await db.query("select * from tabela")
+      return query.rows
+    } 
+    catch( error ) {
+      console.log(error)
+    }
+
   }
 
   async create(dados) {
