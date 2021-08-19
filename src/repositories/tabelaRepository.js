@@ -11,20 +11,28 @@ class TabelaRepository {
   }
 
   async find(idTabela) {
-    try{
+    try {
       const db = await new DB().getConnection()
-      const query = await db.query("select * from tabela")
-      return query.rows
+      const result = await db.query("select * from tabela")
+      return result.rows
     } 
     catch( error ) {
-      console.log(error)
+      return error
     }
-
   }
 
-  async create(dados) {
-
+  async create({nome, schema} = dados) {
+    try {
+      const db = await new DB().getConnection()
+      const query = `INSERT INTO tabela (nome, schema) VALUES ($1, $2) RETURNING *`
+      const result = await db.query(query,[nome, schema])
+      return result.rows
+    } 
+    catch( error ) {
+      return error
+    }
   }
+
 }
 
 module.exports = TabelaRepository
