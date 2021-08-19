@@ -1,18 +1,18 @@
 class TabelaRepository {
   
-  constructor(table) {
-    this.table = table
+  constructor(dados) {
+    this.dados = dados
+  }
+
+  getDados() {
+    return this.dados
   }
 
   async find(idTabela) {
-    return await {
-      id:1,
-      nome: "tb_usuario",
-      schema: "public"
-    }  
+    return []
   }
 
-  async create(data) {
+  async create(dados) {
 
   }
 }
