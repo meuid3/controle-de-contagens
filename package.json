@@ -4,10 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start":"nodemon ./src/index.js"
+    "start": "nodemon ./src/index.js"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "pg": "^8.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
