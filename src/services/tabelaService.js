@@ -1,11 +1,11 @@
 class TabelaService {
 
-  constructor({tabelaRepository}) {
+  constructor(tabelaRepository) {
     this.tabelaRepository = tabelaRepository
   }
 
   async find(idTabela) {
-    return this.tabelaRepository.find(idTabela)
+    return await this.tabelaRepository.find(idTabela)
   }
 
   async create(data) {
