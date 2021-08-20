@@ -22,4 +22,17 @@ tabelaRouter.post('/create', async (request, response) => {
   response.status(200).json(result)
 })
 
+tabelaRouter.post('/update', async (request, response) => {
+  const tabela = generateInstance()
+  let result = await tabela.update(request.body)
+  response.status(200).json(result)
+})
+
+tabelaRouter.delete('/:id', async (request, response) => {
+  const tabela = generateInstance()
+  const {id} = request.params
+  let result = tabela.delete(id)
+  response.status(200).json(result)
+})
+
 module.exports = {tabelaRouter}
