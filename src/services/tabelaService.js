@@ -32,7 +32,10 @@ class TabelaService {
   async update(data) {
     const tabela = new Tabela(data)
     if(tabela.isValid().status) {
-      return await this.tabelaRepository.update(tabela)
+      if(data.id) 
+        return await this.tabelaRepository.update(tabela)
+      else 
+        return {message: 'id não informado'}
     }
 
     return {message: tabela.isValid().campos}
@@ -41,7 +44,7 @@ class TabelaService {
   async delete(idTabela) {
     if(idTabela) {
       if(!isNaN(idTabela)) {
-        return await this.tabelaRepository.delete(parseInt(idTabela))
+        return await this.tabelaRepository.delete(idTabela)
       } else {
         return {message: `o id informado é inválido!`}
       }
