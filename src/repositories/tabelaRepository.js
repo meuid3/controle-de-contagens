@@ -47,7 +47,7 @@ class TabelaRepository {
   async delete(idTabela) {
     try {
       const db = await new DB().getConnection()
-      const query = `DELETE public.tabela where id = $1 RETURNING *`
+      const query = `DELETE FROM public.tabela WHERE id = $1 RETURNING *`
       const result = await db.query(query, [idTabela])
       return result.rows
     }
