@@ -5,7 +5,14 @@ const tabelaRouter = Router()
 
 tabelaRouter.get('/', async (request, response) => {
   const tabela = generateInstance()
-  let result = await tabela.find(1)
+  let result = await tabela.getAll()
+  response.json(result)
+})
+
+tabelaRouter.get('/:id', async (request, response) => {
+  const tabela = generateInstance()
+  const {id} = request.params
+  let result = await tabela.find(id)
   response.json(result)
 })
 
