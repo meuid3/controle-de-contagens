@@ -1,4 +1,4 @@
-const { Pool } = require('pg')
+//const { Pool } = require('pg')
 const {
   database,
   host,
@@ -10,23 +10,18 @@ const {
   max
 } = require('./config')
 
-class DB {
-  constructor() {
-    this.connection =  new Pool({
-      host: host,
-      user: user,
-      password: password ,
-      port: port,
-      database: database,
-      max: max,
-      idleTimeoutMillis: idleTimeoutMillis,
-      connectionTimeoutMillis: connectionTimeoutMillis,
-    })
-  }
 
-  async getConnection() {
-    return await this.connection.connect()
-  }
-}
+const { Pool } = require('pg');
 
-module.exports = {DB}
+const db = new Pool({
+  host: host,
+  user: user,
+  password: password ,
+  port: port,
+  database: database,
+  max: max,
+  idleTimeoutMillis: idleTimeoutMillis,
+  connectionTimeoutMillis: connectionTimeoutMillis,
+})
+
+module.exports = db
