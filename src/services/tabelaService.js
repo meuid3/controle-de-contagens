@@ -1,3 +1,5 @@
+const Tabela = require('./../entities/tabela')
+
 class TabelaService {
 
   constructor(tabelaRepository) {
@@ -9,7 +11,12 @@ class TabelaService {
   }
 
   async create(data) {
-    return this.tabelaRepository.create(data)
+    const tabela = new Tabela(data)
+    if(tabela.isValid().status) {
+      return this.tabelaRepository.create(tabela)
+    }
+
+    return {message: tabela.isValid().campos}
   }
 }
 
