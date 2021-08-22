@@ -44,8 +44,8 @@ class Model {
   }
 
   async update(dados, filters) {
-    const {query, paramValues} = this.mountDataQueryUpdate(dados, filters)
     try {
+      const {query, paramValues} = this.mountDataQueryUpdate(dados, filters)
       const result = await db.query(query, paramValues)
       return result.rows
     }
@@ -120,6 +120,7 @@ class Model {
     // laço responsável por criar os parâmetros da queryString independente da
     // ordem informada
     for (const [index, proprertie] of this.properties.entries()) {
+      if(!this.generateExternalId && proprertie.name == this.primaryKey) continue
   
       if(index !== 0) {
         propertiesAndParams += `,${proprertie.name} = $${currentParamPosition}`
@@ -142,20 +143,27 @@ class Model {
 
     let conditionalFilter = ''
 
+    if(filters.length == 0) {
+      conditionalFilter =` ${this.primaryKey} = $${currentParamPosition++}`
+      paramValues.push(dados[this.primaryKey])
+    }
+
     filters.forEach((value, index) => {
-      const property = Object.getOwnPropertyNames(value)
-      if(index == 0) 
-        conditionalFilter += ` ${property} = $${currentParamPosition++}`
-      else
-        conditionalFilter += ` AND ${property} = $${currentParamPosition++}`
-      
+      if(value.name !== this.primaryKey) {
+        const property = Object.getOwnPropertyNames(value)
+        if(index == 0) 
+          conditionalFilter += ` ${property} = $${currentParamPosition++}`
+        else
+          conditionalFilter += ` AND ${property} = $${currentParamPosition++}`
+        
         paramValues.push(value[property])
+      }
     })
 
     const query = `UPDATE ${this.schema}.${this.table} SET ${propertiesAndParams} WHERE ${conditionalFilter} RETURNING *`
     
     return {
-      properties: query,
+      query: query,
       paramValues: paramValues
     }
   }
