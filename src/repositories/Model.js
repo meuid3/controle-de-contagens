@@ -144,7 +144,7 @@ class Model {
     let conditionalFilter = ''
 
     if(filters.length == 0) {
-      conditionalFilter =` ${this.primaryKey} = $${currentParamPosition++}`
+      conditionalFilter =` ${this.table}.${this.primaryKey} = $${currentParamPosition++}`
       paramValues.push(dados[this.primaryKey])
     }
 
@@ -152,9 +152,9 @@ class Model {
       if(value.name !== this.primaryKey) {
         const property = Object.getOwnPropertyNames(value)
         if(index == 0) 
-          conditionalFilter += ` ${property} = $${currentParamPosition++}`
+          conditionalFilter += `  ${this.table}.${property} = $${currentParamPosition++}`
         else
-          conditionalFilter += ` AND ${property} = $${currentParamPosition++}`
+          conditionalFilter += ` AND  ${this.table}.${property} = $${currentParamPosition++}`
         
         paramValues.push(value[property])
       }
