@@ -7,7 +7,8 @@ class TabelaRepository extends Model{
       properties: ['nome', 'schema', 'id'],
       table: "tabela",
       schema: "public",
-      primaryKey: "id"
+      primaryKey: "id",
+      generateExternalId: false
     })
   }
 }
