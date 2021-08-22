@@ -32,7 +32,7 @@ class Model {
   async create(dados) {
 
     try{
-      const { properties, paramsPosition, paramsValues } = this.mountDataQuery(dados)
+      const { properties, paramsPosition, paramsValues } = this.mountDataQueryCreate(dados)
       const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
       const result = await db.query(query, paramsValues)
       return result.rows
@@ -43,7 +43,8 @@ class Model {
    
   }
 
-  async update({id, nome, schema} = dados) {
+  async update(dados, filters) {
+    return this.mountDataQueryUpdate(dados, filters)
     try {
       const query = `UPDATE public.tabela SET nome= $1, schema= $2 WHERE id = $3 RETURNING *`
       const result = await db.query(query, [nome, schema, id])
@@ -56,8 +57,8 @@ class Model {
 
   async delete(idTabela) {
     try {
-      const query = `DELETE FROM public.tabela WHERE id = $1 RETURNING *`
-      const result = await db.query(query, [idTabela])
+      const queryString = `DELETE * FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1 RETURNING *`
+      const result = await db.query(queryString, [idTabela])
       return result.rows
     }
     catch(error) {
@@ -69,7 +70,7 @@ class Model {
     return  isNull
   }
 
-  mountDataQuery(dados) {
+  mountDataQueryCreate(dados) {
 
     let properties = ''
     let paramsPosition = ''
@@ -107,6 +108,56 @@ class Model {
       properties: properties,
       paramsPosition: paramsPosition,
       paramsValues:paramValues,
+    }
+  }
+
+
+  mountDataQueryUpdate(dados, filters = []) {
+
+    let propertiesAndParams = ''
+    let currentParamPosition = 1
+    let paramValues = []
+
+    // laço responsável por criar os parâmetros da queryString independente da
+    // ordem informada
+    for (const [index, proprertie] of this.properties.entries()) {
+  
+      if(index !== 0) {
+        propertiesAndParams += `,${proprertie.name} = $${currentParamPosition}`
+      } else {
+        propertiesAndParams += `${proprertie.name} = $${currentParamPosition}`
+      }
+      currentParamPosition++
+    
+    // bloco responsável por validar e ordenar os valores na ordem correta de inserção
+      if(!dados[proprertie.name]) {
+        if(this.isAceptPropertieNull(proprertie))
+          paramValues.push(dados[proprertie.name])
+        else
+          return {message: `Propertie (${proprertie.name}) is not a null!`}
+      } else {
+        paramValues.push(dados[proprertie.name])
+      }
+
+    }
+
+    let conditionalFilter = ''
+
+    filters.forEach((value, index) => {
+      const property = Object.getOwnPropertyNames(value)
+      if(index == 0) 
+        conditionalFilter += ` ${property} = $${currentParamPosition++}`
+      else
+        conditionalFilter += ` AND ${property} = $${currentParamPosition++}`
+      
+        paramValues.push(value[property])
+    })
+
+    const query = `UPDATE ${this.schema}.${this.table} SET ${propertiesAndParams} WHERE ${conditionalFilter} RETURNING *`
+    
+    return {
+      properties: query,
+      paramValues: paramValues
     }
   }
 
