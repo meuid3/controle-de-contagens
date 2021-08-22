@@ -32,11 +32,9 @@ class Model {
   async create(dados) {
 
     try{
-
-      const mountDataQuery = this.mountDataQuery(dados)
-      return mountDataQuery;
+      const { properties, paramsPosition, paramsValues } = this.mountDataQuery(dados)
       const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
-      const result = await db.query(query, paramValues)
+      const result = await db.query(query, paramsValues)
       return result.rows
     }
     catch(error) {
@@ -67,11 +65,12 @@ class Model {
     }
   }
 
-  isAceptPropertieNull(propertie) {
-    return true
+  isAceptPropertieNull({isNull}) {
+    return  isNull
   }
 
   mountDataQuery(dados) {
+
     let properties = ''
     let paramsPosition = ''
     let currentParamPosition = 1
@@ -81,26 +80,27 @@ class Model {
     // ordem informada
     for (const [index, proprertie] of this.properties.entries()) {
       
-      if(!this.generateExternalId && proprertie == 'id') continue
+      if(!this.generateExternalId && proprertie.name == this.primaryKey) continue
 
       if(index !== 0) {
-        properties += `,${proprertie}`
+        properties += `,${proprertie.name}`
         paramsPosition += `,$${currentParamPosition}`
       } else {
-        properties += `${proprertie}`
+        properties += `${proprertie.name}`
         paramsPosition += `$${currentParamPosition}`
       }
       currentParamPosition++
     
     // bloco responsável por validar e ordenar os valores na ordem correta de inserção
-      if(!dados[proprertie]) {
+      if(!dados[proprertie.name]) {
         if(this.isAceptPropertieNull(proprertie))
-          paramValues.push(dados[proprertie])
+          paramValues.push(dados[proprertie.name])
         else
-          return {message: `Propertie "${proprertie}" is not a null!`}
+          return {message: `Propertie (${proprertie.name}) is not a null!`}
       } else {
-        paramValues.push(dados[proprertie])
+        paramValues.push(dados[proprertie.name])
       }
+
     }
 
     return {
