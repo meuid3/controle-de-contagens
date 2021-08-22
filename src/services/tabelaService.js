@@ -23,7 +23,7 @@ class TabelaService {
   async create(data) {
     const tabela = new Tabela(data)
     if(tabela.isValid().status) {
-      return this.tabelaRepository.create(tabela)
+      return await this.tabelaRepository.create(tabela)
     }
 
     return {message: tabela.isValid().campos}
