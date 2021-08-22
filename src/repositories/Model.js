@@ -44,10 +44,9 @@ class Model {
   }
 
   async update(dados, filters) {
-    return this.mountDataQueryUpdate(dados, filters)
+    const {query, paramValues} = this.mountDataQueryUpdate(dados, filters)
     try {
-      const query = `UPDATE public.tabela SET nome= $1, schema= $2 WHERE id = $3 RETURNING *`
-      const result = await db.query(query, [nome, schema, id])
+      const result = await db.query(query, paramValues)
       return result.rows
     }
     catch(error) {
