@@ -33,35 +33,8 @@ class Model {
 
     try{
 
-      let properties = ''
-      let paramsPosition = ''
-      let paramValues = []
-
-      // laço responsável por criar os parâmetros da queryString independente da
-      // ordem informada
-      for (const [index, proprertie] of this.properties.entries()) {
-        
-        if(!this.generateExternalId && proprertie == 'id') continue
-
-        if(index !== 0) {
-          properties += `,${proprertie}`
-          paramsPosition += `,$${index +1}`
-        } else {
-          properties += `${proprertie}`
-          paramsPosition += `$${index +1}`
-        }
-      
-      // bloco responsável por validar e ordenar os valores na ordem correta de inserção
-        if(!dados[proprertie]) {
-          if(this.isAceptPropertieNull(proprertie))
-            paramValues.push(dados[proprertie])
-          else
-            return {message: `Propertie "${proprertie}" is not a null!`}
-        } else {
-          paramValues.push(dados[proprertie])
-        }
-      }
-
+      const mountDataQuery = this.mountDataQuery(dados)
+      return mountDataQuery;
       const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
       const result = await db.query(query, paramValues)
       return result.rows
@@ -97,6 +70,46 @@ class Model {
   isAceptPropertieNull(propertie) {
     return true
   }
+
+  mountDataQuery(dados) {
+    let properties = ''
+    let paramsPosition = ''
+    let currentParamPosition = 1
+    let paramValues = []
+
+    // laço responsável por criar os parâmetros da queryString independente da
+    // ordem informada
+    for (const [index, proprertie] of this.properties.entries()) {
+      
+      if(!this.generateExternalId && proprertie == 'id') continue
+
+      if(index !== 0) {
+        properties += `,${proprertie}`
+        paramsPosition += `,$${currentParamPosition}`
+      } else {
+        properties += `${proprertie}`
+        paramsPosition += `$${currentParamPosition}`
+      }
+      currentParamPosition++
+    
+    // bloco responsável por validar e ordenar os valores na ordem correta de inserção
+      if(!dados[proprertie]) {
+        if(this.isAceptPropertieNull(proprertie))
+          paramValues.push(dados[proprertie])
+        else
+          return {message: `Propertie "${proprertie}" is not a null!`}
+      } else {
+        paramValues.push(dados[proprertie])
+      }
+    }
+
+    return {
+      properties: properties,
+      paramsPosition: paramsPosition,
+      paramsValues:paramValues,
+    }
+  }
+
 
 }
 
