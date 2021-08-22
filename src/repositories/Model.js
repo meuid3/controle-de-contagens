@@ -2,16 +2,17 @@ const db = require('../../db/db')
 
 class Model {
 
-  constructor({properties, table, schema, primaryKey}) {
+  constructor({properties, table, schema, primaryKey, generateExternalId = false}) {
     this.properties = properties
     this.table = table
     this.schema = schema
     this.primaryKey = primaryKey
+    this.generateExternalId = generateExternalId
     this.db = db
   }
 
   async getAll() {
-    const queryString = `SELECT * FROM ${table}`
+    const queryString = `SELECT * FROM ${this.table}`
     const result = await db.query(queryString)
     return result.rows
   }
@@ -27,20 +28,48 @@ class Model {
     }
   }
 
-  async getAll() {
-    const result = await db.query("select * from tabela")
-    return result.rows
-  }
 
-  async create({nome, schema} = dados) {
-    try {
-      const query = `INSERT INTO tabela (nome, schema) VALUES ($1, $2) RETURNING *`
-      const result = await db.query(query,[nome, schema])
+  async create(dados) {
+
+    try{
+
+      let properties = ''
+      let paramsPosition = ''
+      let paramValues = []
+
+      // laço responsável por criar os parâmetros da queryString independente da
+      // ordem informada
+      for (const [index, proprertie] of this.properties.entries()) {
+        
+        if(!this.generateExternalId && proprertie == 'id') continue
+
+        if(index !== 0) {
+          properties += `,${proprertie}`
+          paramsPosition += `,$${index +1}`
+        } else {
+          properties += `${proprertie}`
+          paramsPosition += `$${index +1}`
+        }
+      
+      // bloco responsável por validar e ordenar os valores na ordem correta de inserção
+        if(!dados[proprertie]) {
+          if(this.isAceptPropertieNull(proprertie))
+            paramValues.push(dados[proprertie])
+          else
+            return {message: `Propertie "${proprertie}" is not a null!`}
+        } else {
+          paramValues.push(dados[proprertie])
+        }
+      }
+
+      const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
+      const result = await db.query(query, paramValues)
       return result.rows
-    } 
-    catch(error) {
-      return error
     }
+    catch(error) {
+      console.log(error)
+    }
+   
   }
 
   async update({id, nome, schema} = dados) {
@@ -63,6 +92,10 @@ class Model {
     catch(error) {
       return error
     }
+  }
+
+  isAceptPropertieNull(propertie) {
+    return true
   }
 
 }
