@@ -4,7 +4,20 @@ class TabelaRepository extends Model{
 
   constructor() {
     super({
-      properties: ['nome', 'schema', 'id'],
+      properties: [
+        {
+          name:'schema',
+          isNull: false
+        },
+        {
+          name:'id',
+          isNull: false
+        }, 
+        {
+          name:'nome',
+          isNull: false
+        }
+      ],
       table: "tabela",
       schema: "public",
       primaryKey: "id",
