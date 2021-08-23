@@ -55,14 +55,9 @@ class Model {
   }
 
   async delete(idTabela) {
-    try {
-      const queryString = `DELETE * FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1 RETURNING *`
-      const result = await db.query(queryString, [idTabela])
-      return result.rows
-    }
-    catch(error) {
-      return error
-    }
+    const queryString = `DELETE FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1 RETURNING *`
+    const result = await db.query(queryString, [idTabela])
+    return result.rows
   }
 
   isAceptPropertieNull({isNull}) {
