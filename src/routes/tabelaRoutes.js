@@ -28,10 +28,10 @@ tabelaRouter.post('/update', async (request, response) => {
   response.status(200).json(result)
 })
 
-tabelaRouter.delete('/:id', async (request, response) => {
+tabelaRouter.post('/excluir/:id', async (request, response) => {
   const tabela = generateInstance()
   const {id} = request.params
-  let result = tabela.delete(id)
+  let result = await tabela.delete(id)
   response.status(200).json(result)
 })
 
