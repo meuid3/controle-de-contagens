@@ -117,29 +117,17 @@ class Model {
     let currentParamPosition = 1
     let paramValues = []
 
-    // laço responsável por criar os parâmetros da queryString independente da
-    // ordem informada
-    for (const [index, proprertie] of this.properties.entries()) {
-      if(!this.generateExternalId && proprertie.name == this.primaryKey) continue
-  
-      if(index !== 0) {
-        propertiesAndParams += `,${proprertie.name} = $${currentParamPosition}`
-      } else {
-        propertiesAndParams += `${proprertie.name} = $${currentParamPosition}`
-      }
-      currentParamPosition++
-    
-    // bloco responsável por validar e ordenar os valores na ordem correta de inserção
-      if(!dados[proprertie.name]) {
-        if(this.isAceptPropertieNull(proprertie))
-          paramValues.push(dados[proprertie.name])
-        else
-          return {message: `Propertie (${proprertie.name}) is not a null!`}
-      } else {
-        paramValues.push(dados[proprertie.name])
-      }
+    const propertyNames = Object.getOwnPropertyNames(dados)
 
-    }
+    propertyNames.forEach((value, index) => {
+      if(value !== this.primaryKey) {
+          propertiesAndParams += `,${value} = $${currentParamPosition}`
+          paramValues.push(dados[value])
+        currentParamPosition++
+      }
+    })
+
+    propertiesAndParams = propertiesAndParams.substring(1);
 
     let conditionalFilter = ''
 
@@ -152,7 +140,7 @@ class Model {
       if(value.name !== this.primaryKey) {
         const property = Object.getOwnPropertyNames(value)
         if(index == 0) 
-          conditionalFilter += `  ${this.table}.${property} = $${currentParamPosition++}`
+          conditionalFilter += ` ${this.table}.${property} = $${currentParamPosition++}`
         else
           conditionalFilter += ` AND  ${this.table}.${property} = $${currentParamPosition++}`
         
