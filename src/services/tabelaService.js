@@ -34,13 +34,7 @@ class TabelaService {
   }
 
   async delete(idTabela) {
-    if(idTabela) {
-      if(!isNaN(idTabela)) {
-        return await this.tabelaRepository.delete(idTabela)
-      } else {
-        return {message: `o id informado é inválido!`}
-      }
-    }
+    return await this.tabelaRepository.delete(idTabela)
   }
 }
 
