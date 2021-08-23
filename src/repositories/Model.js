@@ -60,9 +60,6 @@ class Model {
     return result.rows
   }
 
-  isAceptPropertieNull({isNull}) {
-    return  isNull
-  }
 
   mountDataQueryCreate(dados) {
 
@@ -71,22 +68,16 @@ class Model {
     let currentParamPosition = 1
     let paramValues = []
 
-    // laço responsável por criar os parâmetros da queryString independente da
-    // ordem informada
+    // cria os parâmetros da queryString independente da ordem informada
     for (const [index, proprertie] of this.properties.entries()) {
       
       if(!this.generateExternalId && proprertie.name == this.primaryKey) continue
 
-      if(index !== 0) {
-        properties += `,${proprertie.name}`
-        paramsPosition += `,$${currentParamPosition}`
-      } else {
-        properties += `${proprertie.name}`
-        paramsPosition += `$${currentParamPosition}`
-      }
+      properties += `,${proprertie.name}`
+      paramsPosition += `,$${currentParamPosition}`
       currentParamPosition++
     
-    // bloco responsável por validar e ordenar os valores na ordem correta de inserção
+      // Valida e ordena os valores na ordem correta de inserção
       if(!dados[proprertie.name]) {
         if(this.isAceptPropertieNull(proprertie))
           paramValues.push(dados[proprertie.name])
@@ -97,6 +88,9 @@ class Model {
       }
 
     }
+
+    properties = properties.substring(1); 
+    paramsPosition = paramsPosition.substring(1);
 
     return {
       properties: properties,
@@ -149,6 +143,10 @@ class Model {
       query: query,
       paramValues: paramValues
     }
+  }
+
+  isAceptPropertieNull({isNull}) {
+    return  isNull
   }
 
 
