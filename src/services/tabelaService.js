@@ -30,15 +30,7 @@ class TabelaService {
   }
 
   async update(data) {
-    const tabela = new Tabela(data)
-    if(tabela.isValid().status) {
-      if(data.id) 
-        return await this.tabelaRepository.update(tabela)
-      else 
-        return {message: 'id não informado'}
-    }
-
-    return {message: tabela.isValid().campos}
+      return await this.tabelaRepository.update(data)
   }
 
   async delete(idTabela) {
