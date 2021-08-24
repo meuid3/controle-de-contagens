@@ -1,8 +1,8 @@
-
 class Funcionalidade {
-  constructor({id, nome, modulo, tabelas}) {
+  constructor({id, nome, modulo_id, tabelas, modulo}) {
     this.id = id
     this.nome = nome
+    this.modulo_id = modulo_id
     this.modulo = modulo
     this.tabelas = tabelas
   }
@@ -11,7 +11,13 @@ class Funcionalidade {
     const propriedades = Object.getOwnPropertyNames(this)
     const propriedadesInvalidas = propriedades
       .map( propriedade => {
-        if(propriedade !== 'id' && propriedade !== 'modulo' && propriedade !== 'tabelas') {
+        if(
+          propriedade !== 'id' 
+          && propriedade !== 'modulo' 
+          && propriedade !== 'tabelas' 
+          && propriedade !== 'modulo_id' 
+          && propriedade !== 'tabelas'
+        ) {
           return !!this[propriedade] ? null : `${propriedade} não informado`
         }
       })
@@ -24,3 +30,5 @@ class Funcionalidade {
   }
 
 }
+
+module.exports = Funcionalidade
