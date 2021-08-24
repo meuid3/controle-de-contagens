@@ -1,4 +1,4 @@
-const ModuloRepository = require('../repositories/modulo')
+const ModuloRepository = require('../repositories/moduloRepository')
 const ModuloService = require('../services/moduloService')
 
 const generateInstanceModulo = (data) => {
