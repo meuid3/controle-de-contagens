@@ -24,3 +24,5 @@ class FuncionalidadeRepository extends Model {
     })
   }
 }
+
+module.exports = FuncionalidadeRepository
