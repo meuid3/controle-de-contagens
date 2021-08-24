@@ -6,3 +6,5 @@ const generateInstanceFuncionalidade = (data) => {
   const funcionalidadeService = new FuncionalidadeService(funcionalidadeRepository)
   return {funcionalidadeService}
 }
+
+module.exports = {generateInstanceFuncionalidade}
