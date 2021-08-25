@@ -1,26 +1,9 @@
 class FuncionalidadeTabela {
-  constructor({id, tabelaId, funcionalidadeId }) {
+  constructor({id, tabela_id, funcionalidade_id }) {
     this.id = id
-    this.tabelaId = tabelaId
-    this.funcionalidadeId = funcionalidadeId 
+    this.tabela_id = tabela_id
+    this.funcionalidade_id = funcionalidade_id 
   }
-
-  isValid() {
-    const propriedades = Object.getOwnPropertyNames(this)
-    const propriedadesInvalidas = propriedades
-      .map( propriedade => {
-        if(propriedade !== 'id') {
-          return !!this[propriedade] ? null : `${propriedade} não informado`
-        }
-      })
-      .filter(propriedade => !!propriedade)
-
-    return {
-      status: propriedadesInvalidas.length == 0,
-      property: propriedadesInvalidas
-    }
-  }
-
 }
 
 module.exports = FuncionalidadeTabela
