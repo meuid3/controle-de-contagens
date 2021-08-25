@@ -32,8 +32,8 @@ class FuncionalidadeService {
       return await this.funcionalidadeRepository.update(data)
   }
 
-  async delete(idModulo) {
-    return await this.funcionalidadeRepository.delete(idModulo)
+  async delete(idFuncionalidade) {
+    return await this.funcionalidadeRepository.delete(idFuncionalidade)
   }
 }
 
