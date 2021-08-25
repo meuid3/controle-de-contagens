@@ -1,4 +1,4 @@
-class FuncionalidadeTabela {
+class FuncionalidadeTabelaRepository {
 
   constructor() {
     super({
