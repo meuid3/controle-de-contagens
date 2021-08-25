@@ -1,3 +1,4 @@
+const FuncionalidadeTabela = require('../entities/funcionalidadeTabela')
 class FuncionalidadeTabelaService {
 
   constructor(funcionalidadeTabelaRepository) {
@@ -19,12 +20,12 @@ class FuncionalidadeTabelaService {
   }
 
   async create(data) {
-    const funcionalidadeTabela = new Funcionalidade(data)
-    if(funcionalidade.isValid().status) {
+    const funcionalidadeTabela = new FuncionalidadeTabela(data)
+    if(funcionalidadeTabela.isValid().status) {
       return await this.funcionalidadeTabelaRepository.create(funcionalidadeTabela)
     }
 
-    return {message: funcionalidade.isValid().campos}
+    return {message: funcionalidadeTabela.isValid().campos}
   }
 
   async update(data) {
