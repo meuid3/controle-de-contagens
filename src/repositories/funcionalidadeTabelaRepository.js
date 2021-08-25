@@ -1,4 +1,6 @@
-class FuncionalidadeTabelaRepository {
+const Model = require('./Model')
+
+class FuncionalidadeTabelaRepository extends Model {
 
   constructor() {
     super({
@@ -24,4 +26,4 @@ class FuncionalidadeTabelaRepository {
   }
 }
 
-module.exports = FuncionalidadeTabela
+module.exports = FuncionalidadeTabelaRepository
