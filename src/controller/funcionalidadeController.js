@@ -3,35 +3,65 @@ const {generateInstanceFuncionalidade} = require('./../factories/funcionalidadeF
 class FuncionalidadeController {
   
   async find(request, response) {
-    const funcionalidade = generateInstanceFuncionalidade()
-    const {id} = request.params
-    let result = await funcionalidade.find(id)
-    response.json(result)
+    try {
+      const funcionalidade = generateInstanceFuncionalidade()
+      const {id} = request.params
+      let result = await funcionalidade.find(id)
+      response.json(result)
+    } catch(error) {
+      response.status(500).json({
+        message: error.message
+      })
+    }
   }
 
   async getAll(request, response) {
-    const funcionalidade = generateInstanceFuncionalidade()
-    let result = await funcionalidade.getAll()
-    response.status(200).json(result)
+    try {
+      const funcionalidade = generateInstanceFuncionalidade()
+      let result = await funcionalidade.getAll()
+      response.status(200).json(result)
+    } catch(error) {
+      response.status(500).json({
+        message: error.message
+      })
+    }
   }
 
   async create(request, response) {
-    const funcionalidade = generateInstanceFuncionalidade()
-    let result = await funcionalidade.create(request.body)
-    response.status(200).json(result)
+    try {
+      const funcionalidade = generateInstanceFuncionalidade()
+      let result = await funcionalidade.create(request.body)
+      response.status(200).json(result)
+    } catch(error) {
+      response.status(500).json({
+        message: error.message
+      })
+    }
   }
 
   async update(request, response) {
-    const funcionalidade = generateInstanceFuncionalidade()
-    let result = await funcionalidade.update(request.body)
-    response.status(200).json(result)
+    try {
+      const funcionalidade = generateInstanceFuncionalidade()
+      let result = await funcionalidade.update(request.body)
+      response.status(200).json(result)
+    } catch(error){
+      response.status(500).json({
+        message: error.message
+      })
+    }
   }
 
   async delete(request, response) {
-    const funcionalidade = generateInstanceFuncionalidade()
-    const {id} = request.params
-    let result = await funcionalidade.delete(id)
-    response.status(200).json(result)
+    try {
+      const funcionalidade = generateInstanceFuncionalidade()
+      const {id} = request.params
+      let result = await funcionalidade.delete(id)
+      response.status(200).json(result)
+    } catch(error) {
+      response.status(500).json({
+        message: error.message
+      })
+    }
   }
 
 }
