@@ -10,7 +10,7 @@ class Modulocontroller {
       response.status(200).json(result)
     } catch(error) {
       response.status(500).json({
-        message: error.mesage
+        message: error.message
       })
     }
   }
