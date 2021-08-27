@@ -37,11 +37,11 @@ class ModuloService {
   }
 
   async delete(idModulo) {
-    if(idModulo) {
+    if(!isNaN(idModulo)) {
       return await this.moduloRepository.delete(idModulo)
     }
 
-    throw new Error(Mensagens.PARAMETRO_ID_OBRIGATORIO)
+    throw new Error(Mensagens.PARAMETRO_INVALIDO)
   }
 }
 
