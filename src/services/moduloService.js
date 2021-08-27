@@ -1,4 +1,5 @@
 const Modulo = require('./../entities/modulo')
+const Mensagens = require('../mensagens')
 
 class ModuloService {
   
@@ -11,13 +12,11 @@ class ModuloService {
   }
 
   async find(idModulo) {
-    if(idModulo) {
-      if(!isNaN(idModulo)) {
-        return await this.moduloRepository.find(idModulo)
-      } else {
-        return {message: `o id informado é inválido!`}
-      }
-    }
+    if(!isNaN(idModulo)) {
+      return await this.moduloRepository.find(idModulo)
+    } 
+
+    throw new Error(Mensagens.PARAMETRO_INVALIDO)
   }
 
   async create(data) {
@@ -26,15 +25,24 @@ class ModuloService {
       return await this.moduloRepository.create(modulo)
     }
 
-    return {message: modulo.isValid().campos}
+    throw new Error(modulo.isValid().property.shift())
   }
 
   async update(data) {
+    if(data.id) {
       return await this.moduloRepository.update(data)
+    }
+    
+    throw new Error(Mensagens.PARAMETRO_ID_OBRIGATORIO)
   }
 
   async delete(idModulo) {
-    return await this.moduloRepository.delete(idModulo)
+    if(idModulo) {
+      return await this.moduloRepository.delete(idModulo)
+    }
+
+    throw new Error(Mensagens.PARAMETRO_ID_OBRIGATORIO)
   }
 }
+
 module.exports = ModuloService
