@@ -18,40 +18,22 @@ class Model {
   }
 
   async find(idTabela) {
-    try {
-      const queryString = `SELECT * FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1`
-      const result = await db.query(queryString, [idTabela])
-      return result.rows
-    }
-    catch(error) {
-      return error
-    }
+    const queryString = `SELECT * FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1`
+    const result = await db.query(queryString, [idTabela])
+    return result.rows
   }
 
-
   async create(dados) {
-
-    try{
-      const { properties, paramsPosition, paramsValues } = this.mountDataQueryCreate(dados)
-      const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
-      const result = await db.query(query, paramsValues)
-      return result.rows
-    }
-    catch(error) {
-      console.log(error)
-    }
-   
+    const { properties, paramsPosition, paramsValues } = this.mountDataQueryCreate(dados)
+    const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
+    const result = await db.query(query, paramsValues)
+    return result.rows
   }
 
   async update(dados, filters) {
-    try {
-      const {query, paramValues} = this.mountDataQueryUpdate(dados, filters)
-      const result = await db.query(query, paramValues)
-      return result.rows
-    }
-    catch(error) {
-      return error
-    }
+    const {query, paramValues} = this.mountDataQueryUpdate(dados, filters)
+    const result = await db.query(query, paramValues)
+    return result.rows
   }
 
   async delete(idTabela) {
@@ -60,9 +42,7 @@ class Model {
     return result.rows
   }
 
-
   mountDataQueryCreate(dados) {
-
     let properties = ''
     let paramsPosition = ''
     let currentParamPosition = 1
@@ -82,11 +62,10 @@ class Model {
         if(this.isAceptPropertieNull(proprertie))
           paramValues.push(dados[proprertie.name])
         else
-          return {message: `Propertie (${proprertie.name}) is not a null!`}
+          throw new Error(`Propertie (${proprertie.name}) is not a null!`)
       } else {
         paramValues.push(dados[proprertie.name])
       }
-
     }
 
     properties = properties.substring(1); 
@@ -99,16 +78,14 @@ class Model {
     }
   }
 
-
   mountDataQueryUpdate(dados, filters = []) {
-
     let propertiesAndParams = ''
     let currentParamPosition = 1
     let paramValues = []
 
     const propertyNames = Object.getOwnPropertyNames(dados)
 
-    propertyNames.forEach((value, index) => {
+    propertyNames.forEach(value => {
       if(value !== this.primaryKey) {
           propertiesAndParams += `,${value} = $${currentParamPosition}`
           paramValues.push(dados[value])
@@ -148,8 +125,6 @@ class Model {
   isAceptPropertieNull({isNull}) {
     return  isNull
   }
-
-
 }
 
 module.exports = Model
