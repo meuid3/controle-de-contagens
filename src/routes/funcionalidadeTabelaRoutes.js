@@ -8,4 +8,9 @@ funcionalidadeTabelaRouter.post(
   FuncionalidadeTabelaController.vincularFuncionalidadeTabela
 )
 
+funcionalidadeTabelaRouter.get(
+  '/:idFuncionalidade', 
+  FuncionalidadeTabelaController.getFuncionalidadeTabelaById
+)
+
 module.exports = {funcionalidadeTabelaRouter}
