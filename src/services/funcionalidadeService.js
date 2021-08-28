@@ -1,5 +1,7 @@
-const Funcionalidade = require('../entities/funcionalidade')
 const Mensagens = require('../mensagens')
+const Funcionalidade = require('../entities/funcionalidade')
+const {generateTabelaInstance} = require('../factories/tabelaFactory')
+const {generateInstanceFuncionalidadeTabelaFactory} = require('../factories/funcionalidadeTabelaFactory')
 
 class FuncionalidadeService {
   constructor(funcionalidadeRepository) {
@@ -39,6 +41,33 @@ class FuncionalidadeService {
       return await this.funcionalidadeRepository.delete(idFuncionalidade)
     }
     throw new Error(Mensagens.PARAMETRO_INVALIDO)
+  }
+
+  async vincularTabelaFuncionalidade({funcionalidade_id, tabela_id} = dados) {
+    
+    const tabelaFactory = generateTabelaInstance()
+    const funcionalidade = await this.find(funcionalidade_id)
+    const tabela = await tabelaFactory.find(tabela_id)
+
+    this.validaExistenciaFuncionalidadesDb(tabela, funcionalidade)
+    
+    const tabelaFuncionalidade = generateInstanceFuncionalidadeTabelaFactory()
+
+    const result = tabelaFuncionalidade.create({
+      tabela_id: tabela.id,
+      funcionalidade_id: funcionalidade.id
+    })
+
+    return result
+  }
+
+  validaExistenciaFuncionalidadesDb(tabela, funcionalidade) {
+    console.log(tabela)
+    if(!tabela.id) 
+      throw new Error(Mensagens.REGISTRO_NAO_ENCONTRADO.replace('{0}', 'tabela'))
+    
+    if(!funcionalidade.id)
+      throw new Error(Mensagens.REGISTRO_NAO_ENCONTRADO.replace('{0}', 'funcionalidade'))
   }
 }
 
