@@ -1,6 +1,7 @@
 const {generateInstanceFuncionalidadeTabelaFactory} = require('../factories/funcionalidadeTabelaFactory')
 
 class FuncionalidadeTabelaController {
+
   async vincularFuncionalidadeTabela(request, response) {
     try {
       const funcionalidadeTabela = generateInstanceFuncionalidadeTabelaFactory()
@@ -14,7 +15,18 @@ class FuncionalidadeTabelaController {
     }
   }
 
-
+  async getFuncionalidadeTabelaById(request, response) {
+    try {
+      const funcionalidadeTabela = generateInstanceFuncionalidadeTabelaFactory()
+      const {idFuncionalidade} = request.params 
+      const result = await funcionalidadeTabela.getFuncionalidadeTabelaById(idFuncionalidade)
+      response.status(200).json(result)
+    } catch(error) {
+      response.status(500).json({
+        message: error.message
+      })
+    }
+  }
 }
 
 module.exports = new FuncionalidadeTabelaController()
