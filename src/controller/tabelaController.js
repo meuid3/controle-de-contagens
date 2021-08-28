@@ -1,10 +1,10 @@
-const {generateInstance} = require('./../factories/tabelaFactory')
+const {generateTabelaInstance} = require('./../factories/tabelaFactory')
 
 class TabelaController {
   
   async find(request, response) {
     try {
-      const tabela = generateInstance()
+      const tabela = generateTabelaInstance()
       const {id} = request.params
       let result = await tabela.find(id)
       response.status(200).json(result)
@@ -17,7 +17,7 @@ class TabelaController {
 
   async getAll(request, response) {
     try {
-      const tabela = generateInstance()
+      const tabela = generateTabelaInstance()
       let result = await tabela.getAll()
       response.json(result)
     } catch(error) {
@@ -29,7 +29,7 @@ class TabelaController {
 
   async create(request, response) {
     try {
-      const tabela = generateInstance()
+      const tabela = generateTabelaInstance()
       let result = await tabela.create(request.body)
       response.status(201).json(result)
     } catch(error) {
@@ -41,7 +41,7 @@ class TabelaController {
 
   async update(request, response) {
     try {
-      const tabela = generateInstance()
+      const tabela = generateTabelaInstance()
       let result = await tabela.update(request.body)
       response.status(201).json(result)
     } catch(error) {
@@ -53,7 +53,7 @@ class TabelaController {
 
   async delete(request, response) {
     try {
-      const tabela = generateInstance()
+      const tabela = generateTabelaInstance()
       const {id} = request.params
       let result = await tabela.delete(id)
       response.status(200).json(result)
