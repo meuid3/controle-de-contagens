@@ -20,7 +20,7 @@ class Model {
   async find(idTabela) {
     const queryString = `SELECT * FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1`
     const result = await db.query(queryString, [idTabela])
-    return result.rows
+    return result.rows.shift()
   }
 
   async create(dados) {
@@ -39,7 +39,7 @@ class Model {
   async delete(idTabela) {
     const queryString = `DELETE FROM ${this.schema}.${this.table} WHERE ${this.primaryKey} = $1 RETURNING *`
     const result = await db.query(queryString, [idTabela])
-    return result.rows
+    return result.rows.shift()
   }
 
   mountDataQueryCreate(dados) {
