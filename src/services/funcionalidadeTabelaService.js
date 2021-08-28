@@ -38,7 +38,6 @@ class FuncionalidadeTabelaService {
   }
 
   async vincularTabelaFuncionalidade({funcionalidade_id, tabela_id} = dados) {
-
     const tabelaFactory = generateTabelaInstance()
     const funcionalidadeFactory = generateInstanceFuncionalidade()
 
@@ -55,16 +54,15 @@ class FuncionalidadeTabelaService {
     return result
   }
 
-  async getFuncionalidadeById(idFuncionalidade) {
+  async getFuncionalidadeTabelaById(idFuncionalidade) {
     if(!isNaN(idFuncionalidade)) {
-      
+      const result = await this.funcionalidadeTabelaRepository.getFuncionaliadadeTabelaById(idFuncionalidade)
+      return result
     }
-
     throw new Error(Mensagens.PARAMETRO_INVALIDO)
   }
 
   _validaExistenciaFuncionalidadesDb(tabela, funcionalidade) {
-    console.log(tabela)
     if(!tabela.id) 
       throw new Error(Mensagens.REGISTRO_NAO_ENCONTRADO.replace('{0}', 'tabela'))
     
