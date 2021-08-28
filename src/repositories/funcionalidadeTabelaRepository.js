@@ -26,10 +26,10 @@ class FuncionalidadeTabelaRepository extends Model {
     })
   }
 
-  async getFuncionaliadadeTabelaById(idFuncionalidade) {
+  async getTabelasByFuncionalidadeId(idFuncionalidade) {
     if(idFuncionalidade) {
       const query = `
-        SELECT *
+        SELECT 	t.id, t.nome, t.schema
         FROM funcionalidade_tabela ft 
         INNER JOIN funcionalidade f ON ft.funcionalidade_id  = f.id
         INNER JOIN tabela t ON ft.tabela_id  = t.id

@@ -10,7 +10,7 @@ funcionalidadeTabelaRouter.post(
 
 funcionalidadeTabelaRouter.get(
   '/:idFuncionalidade', 
-  FuncionalidadeTabelaController.getFuncionalidadeTabelaById
+  FuncionalidadeTabelaController.getTabelasByFuncionalidadeId
 )
 
 module.exports = {funcionalidadeTabelaRouter}

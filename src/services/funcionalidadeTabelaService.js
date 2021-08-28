@@ -54,9 +54,9 @@ class FuncionalidadeTabelaService {
     return result
   }
 
-  async getFuncionalidadeTabelaById(idFuncionalidade) {
+  async getTabelasByFuncionalidadeId(idFuncionalidade) {
     if(!isNaN(idFuncionalidade)) {
-      const result = await this.funcionalidadeTabelaRepository.getFuncionaliadadeTabelaById(idFuncionalidade)
+      const result = await this.funcionalidadeTabelaRepository.getTabelasByFuncionalidadeId(idFuncionalidade)
       return result
     }
     throw new Error(Mensagens.PARAMETRO_INVALIDO)

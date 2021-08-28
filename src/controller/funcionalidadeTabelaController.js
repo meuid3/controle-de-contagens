@@ -15,11 +15,11 @@ class FuncionalidadeTabelaController {
     }
   }
 
-  async getFuncionalidadeTabelaById(request, response) {
+  async getTabelasByFuncionalidadeId(request, response) {
     try {
       const funcionalidadeTabela = generateInstanceFuncionalidadeTabelaFactory()
       const {idFuncionalidade} = request.params 
-      const result = await funcionalidadeTabela.getFuncionalidadeTabelaById(idFuncionalidade)
+      const result = await funcionalidadeTabela.getTabelasByFuncionalidadeId(idFuncionalidade)
       response.status(200).json(result)
     } catch(error) {
       response.status(500).json({
