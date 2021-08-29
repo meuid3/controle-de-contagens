@@ -1,8 +1,9 @@
 const Mensagens = require('../mensagens')
 const Funcionalidade = require('../entities/funcionalidade')
 const FuncionalidadeRepository = require('../repositories/funcionalidadeRepository')
-const {generateInstanceModulo} = require('../factories/moduloFactory')
-const {generateInstanceFuncionalidadeTabelaFactory} = require('../factories/funcionalidadeTabelaFactory')
+const FuncionalidadeTabelaRepository = require('../repositories/funcionalidadeTabelaRepository')
+
+const ModuloRepository = require('../repositories/moduloRepository')
 
 class FuncionalidadeService {
   constructor(funcionalidadeRepository) {
@@ -49,11 +50,11 @@ class FuncionalidadeService {
       const funcionalidadeRepository = new FuncionalidadeRepository()
       const dados = await funcionalidadeRepository.find(idFuncionalidade)
 
-      const moduloFactory = generateInstanceModulo()
-      const modulo = await moduloFactory.find(dados.modulo_id)
+      const moduloRepository = new ModuloRepository()
+      const modulo = await moduloRepository.find(dados.modulo_id)
      
-      const funcionalidadeTabela = generateInstanceFuncionalidadeTabelaFactory()
-      const tabelas = await funcionalidadeTabela.getTabelasByFuncionalidadeId(dados.id)
+      const funcionalidadeTabelaRepository = new FuncionalidadeTabelaRepository()
+      const tabelas = await funcionalidadeTabelaRepository.getTabelasByFuncionalidadeId(dados.id)
       
       dados.modulo = modulo
       dados.tabelas = tabelas
