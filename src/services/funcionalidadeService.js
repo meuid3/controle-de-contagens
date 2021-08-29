@@ -67,12 +67,7 @@ class FuncionalidadeService {
   }
 
   _validaAtributosFuncionalidade(dados) {
-    if(!dados.modulo) 
-      throw new Error(
-        Mensagens.A_INSTANCIA_ESTA_COM_VALORES_INCOMPLETOS.replace('{0}', 'Funcionalidade')
-      )
-    
-    if(!dados.tabelas) 
+    if(!dados.modulo || !dados.tabelas) 
       throw new Error(
         Mensagens.A_INSTANCIA_ESTA_COM_VALORES_INCOMPLETOS.replace('{0}', 'Funcionalidade')
       )
