@@ -9,5 +9,10 @@ module.exports = Mensagens = {
   /**
    * FuncionalidadeTabelas
    */
-  TABELA_JA_VINCULADA_A_FUNCIONALIDADE: 'A tabela informada já foi vinculada na funcionalidade.'
+  TABELA_JA_VINCULADA_A_FUNCIONALIDADE: 'A tabela informada já foi vinculada na funcionalidade.',
+
+  /**
+   * Funcionalidade
+   */
+  A_INSTANCIA_ESTA_COM_VALORES_INCOMPLETOS: 'A instância de {0} está com valores incompletos.',
 }
