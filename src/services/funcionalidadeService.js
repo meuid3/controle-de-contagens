@@ -1,5 +1,8 @@
 const Mensagens = require('../mensagens')
 const Funcionalidade = require('../entities/funcionalidade')
+const FuncionalidadeRepository = require('../repositories/funcionalidadeRepository')
+const {generateInstanceModulo} = require('../factories/moduloFactory')
+const {generateInstanceFuncionalidadeTabelaFactory} = require('../factories/funcionalidadeTabelaFactory')
 
 class FuncionalidadeService {
   constructor(funcionalidadeRepository) {
@@ -39,6 +42,27 @@ class FuncionalidadeService {
       return await this.funcionalidadeRepository.delete(idFuncionalidade)
     }
     throw new Error(Mensagens.PARAMETRO_INVALIDO)
+  }
+
+  async getFuncionalidadeCompletaById(idFuncionalidade) {
+    if(idFuncionalidade) {
+      const funcionalidadeRepository = new FuncionalidadeRepository()
+      const dados = await funcionalidadeRepository.find(idFuncionalidade)
+
+      const moduloFactory = generateInstanceModulo()
+      const modulo = await moduloFactory.find(dados.modulo_id)
+     
+      const funcionalidadeTabela = generateInstanceFuncionalidadeTabelaFactory()
+      const tabelas = await funcionalidadeTabela.getTabelasByFuncionalidadeId(dados.id)
+      
+      dados.modulo = modulo
+      dados.tabelas = tabelas
+
+      const funcionalidade = new Funcionalidade(dados)
+      return funcionalidade
+    }
+
+    throw new Error(Mensagens.PARAMETRO_ID_OBRIGATORIO)
   }
 }
 
