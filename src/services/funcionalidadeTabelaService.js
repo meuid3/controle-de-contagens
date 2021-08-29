@@ -1,8 +1,9 @@
 const Mensagens = require('../mensagens')
-const {generateTabelaInstance} = require('../factories/tabelaFactory')
+const TabelaRepository = require('../repositories/tabelaRepository')
 const FuncionalidadeTabela = require('../entities/funcionalidadeTabela')
-const {generateInstanceFuncionalidade} = require('../factories/funcionalidadeFactory')
+const FuncionalidadeRepository = require('../repositories/funcionalidadeRepository')
 const FuncionalidadeTabelaRepository = require('../repositories/funcionalidadeTabelaRepository')
+
 
 class FuncionalidadeTabelaService {
 
@@ -39,11 +40,11 @@ class FuncionalidadeTabelaService {
   }
 
   async vincularTabelaFuncionalidade({funcionalidade_id, tabela_id} = dados) {
-    const tabelaFactory = generateTabelaInstance()
-    const funcionalidadeFactory = generateInstanceFuncionalidade()
-
-    const funcionalidade = await funcionalidadeFactory.find(funcionalidade_id)
-    const tabela = await tabelaFactory.find(tabela_id)
+    const tabelaRepository = new TabelaRepository()
+    const funcionalidadeRepository = new FuncionalidadeRepository()
+  
+    const funcionalidade = await funcionalidadeRepository.find(funcionalidade_id)
+    const tabela = await tabelaRepository.find(tabela_id)
 
     this._verificaExistenciaFuncionalidadesDb(tabela, funcionalidade) 
 
