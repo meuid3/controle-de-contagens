@@ -1,7 +1,8 @@
 class Funcionalidade {
-  constructor({id, nome, tabelas, modulo}) {
+  constructor({id, nome, tabelas, modulo, modulo_id}) {
     this.id = id
     this.nome = nome
+    this.modulo_id = modulo_id
     this.modulo = modulo
     this.tabelas = tabelas
   }
