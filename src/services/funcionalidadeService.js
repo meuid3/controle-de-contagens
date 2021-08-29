@@ -59,10 +59,23 @@ class FuncionalidadeService {
       dados.tabelas = tabelas
 
       const funcionalidade = new Funcionalidade(dados)
+      this._validaAtributosFuncionalidade(funcionalidade)
       return funcionalidade
     }
 
     throw new Error(Mensagens.PARAMETRO_ID_OBRIGATORIO)
+  }
+
+  _validaAtributosFuncionalidade(dados) {
+    if(!dados.modulo) 
+      throw new Error(
+        Mensagens.A_INSTANCIA_ESTA_COM_VALORES_INCOMPLETOS.replace('{0}', 'Funcionalidade')
+      )
+    
+    if(!dados.tabelas) 
+      throw new Error(
+        Mensagens.A_INSTANCIA_ESTA_COM_VALORES_INCOMPLETOS.replace('{0}', 'Funcionalidade')
+      )
   }
 }
 
