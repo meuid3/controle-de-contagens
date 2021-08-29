@@ -69,12 +69,12 @@ class FuncionalidadeController {
     }
   }
 
-  async vincularTabelaFuncionalidade(request, response) {
+  async getFuncionalidadeCompletaById(request, response) {
     try {
+      const {id} = request.params
       const funcionalidade = generateInstanceFuncionalidade()
-      const dados = request.body
-      const result = await funcionalidade.vincularTabelaFuncionalidade(dados)
-      response.status(201).json(result)
+      const result = await funcionalidade.getFuncionalidadeCompletaById(id)
+      response.status(200).json(result)
 
     } catch(error) {
       response.status(500).json({
