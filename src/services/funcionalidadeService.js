@@ -1,9 +1,9 @@
 const Mensagens = require('../mensagens')
 const Funcionalidade = require('../entities/funcionalidade')
+const ModuloRepository = require('../repositories/moduloRepository')
 const FuncionalidadeRepository = require('../repositories/funcionalidadeRepository')
 const FuncionalidadeTabelaRepository = require('../repositories/funcionalidadeTabelaRepository')
 
-const ModuloRepository = require('../repositories/moduloRepository')
 
 class FuncionalidadeService {
   constructor(funcionalidadeRepository) {
