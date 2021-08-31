@@ -33,7 +33,7 @@ class UsuarioController {
     try {
       const dados = request.body
       const usuario = generateInstanceUsuario()
-      const result = usuario.create(dados)
+      const result = await usuario.create(dados)
       response.status(201).json(result)
 
     } catch(error) {
@@ -47,7 +47,7 @@ class UsuarioController {
     try {
       const dados = request.body
       const usuario = generateInstanceUsuario()
-      const result = usuario.update(dados)
+      const result = await usuario.update(dados)
       response.status(201).json(result)
      
     } catch(error) {
@@ -61,7 +61,7 @@ class UsuarioController {
     try {
       const {id} = request.params
       const usuario = generateInstanceUsuario()
-      const result = usuario.delete(id)
+      const result = await usuario.delete(id)
       response.status(200).json(result)
 
     } catch(error) {
