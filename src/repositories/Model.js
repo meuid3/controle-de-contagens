@@ -27,13 +27,13 @@ class Model {
     const { properties, paramsPosition, paramsValues } = this.mountDataQueryCreate(dados)
     const query = `INSERT INTO ${this.table} (${properties}) VALUES (${paramsPosition}) RETURNING *`
     const result = await db.query(query, paramsValues)
-    return result.rows
+    return result.rows.shift()
   }
 
   async update(dados, filters) {
     const {query, paramValues} = this.mountDataQueryUpdate(dados, filters)
     const result = await db.query(query, paramValues)
-    return result.rows
+    return result.rows.shift()
   }
 
   async delete(idTabela) {
