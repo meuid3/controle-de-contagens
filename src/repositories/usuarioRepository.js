@@ -30,9 +30,9 @@ class UsuarioRepository extends Model {
   }
 
   async buscaUsuarioPorEmail(email) {
-    const query = `SELECT id, nome, email FROM public.usuario WHERE email = $1`
+    const query = `SELECT id, nome, email, senha FROM public.usuario WHERE email = $1`
     const result = await this.db.query(query, [email])
-    return result.rows
+    return result.rows.shift()
   }
 }
 
