@@ -20,4 +20,10 @@ module.exports = Mensagens = {
    * Usuário
    */
   O_USUARIO_JA_EXISTE_CADASTRO: 'O usuário já possui cadastro na base de dados.',
+
+  /**
+   * Usuário
+   */
+  CHAVE_DE_AUTENTICACAO_INEXISTENTE: 'A chave de autenticação não existe',
+  OCORREU_UM_ERRO_AO_REALIZAR_A_AUTENTICACAO: 'Ocorreu um erro ao realizar a autenticação.',
 }
