@@ -1,3 +1,4 @@
+const {hash} = require('bcryptjs')
 const Mensagens = require('../mensagens')
 const Usuario = require('./../entities/usuario')
 
@@ -20,7 +21,14 @@ class UsuarioService {
   }
 
   async create(data) {
-    return await this.usuarioRepository.create(data)
+    const senhaCriptografada = await hash(data.senha, 8)
+    data.senha = senhaCriptografada
+    const usuarioCriado = await this.usuarioRepository.create(data)
+
+    delete usuarioCriado.id
+    delete usuarioCriado.senha
+    
+    return usuarioCriado
   }
 
   async update(data) {
