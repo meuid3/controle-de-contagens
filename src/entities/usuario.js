@@ -11,7 +11,7 @@ class Usuario {
     const propriedades = Object.getOwnPropertyNames(this)
     const propriedadesInvalidas = propriedades
       .map( propriedade => {
-        if(propriedade !== 'id') {
+        if(propriedade !== 'id' && propriedade !== 'nome') {
           return !!this[propriedade] ? null : `${propriedade} não informado`
         }
       })
