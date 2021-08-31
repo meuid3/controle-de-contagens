@@ -1,7 +1,9 @@
 const {Router} = require('express')
+const {autenticacao} = require('../middlewares/authentication')
 const TabelaController = require('../controller/tabelaController')
 
 const tabelaRouter = Router()
+tabelaRouter.use(autenticacao)
 
 tabelaRouter.get('/', TabelaController.getAll)
 tabelaRouter.get('/:id', TabelaController.find)
