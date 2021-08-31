@@ -15,4 +15,9 @@ module.exports = Mensagens = {
    * Funcionalidade
    */
   A_INSTANCIA_ESTA_COM_VALORES_INCOMPLETOS: 'A instância de {0} está com valores incompletos.',
+
+    /**
+   * Usuário
+   */
+  O_USUARIO_JA_EXISTE_CADASTRO: 'O usuário já possui cadastro na base de dados.',
 }
