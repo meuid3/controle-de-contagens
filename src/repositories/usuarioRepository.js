@@ -28,6 +28,12 @@ class UsuarioRepository extends Model {
       generateExternalId: false
     })
   }
+
+  async buscaUsuarioPorEmail(email) {
+    const query = `SELECT id, nome, email FROM public.usuario WHERE email = $1`
+    const result = await this.db.query(query, [email])
+    return result.rows
+  }
 }
 
 module.exports = UsuarioRepository
