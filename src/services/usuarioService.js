@@ -61,7 +61,7 @@ class UsuarioService {
     const usuarioRepository = new UsuarioRepository()
     const usuarioCadastrado = await usuarioRepository.buscaUsuarioPorEmail(email)
 
-    if(usuarioCadastrado.length > 0)
+    if(usuarioCadastrado)
       throw new Error(Mensagens.O_USUARIO_JA_EXISTE_CADASTRO)
   }
 }
